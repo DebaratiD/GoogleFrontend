@@ -1,14 +1,14 @@
 import Image from 'next/image'
+import profilePic from '../../public/icon-img.jpeg';
 
 const Navbar = () => {
-  const profilePic = '../../public/icon-img.jpeg';
   return (
 <nav className="bg-gray-800">
   <div className="mx-auto max-w-10xl px-2 sm:px-6 lg:px-8">
     <div className="relative flex h-16 items-center justify-between">
       <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
         <div className="flex flex-shrink-0 items-center">
-          <Image src={profilePic}  alt="Your Company" className="h-10 w-auto rounded" />
+          <Image src={profilePic} alt="Your Company" className="h-10 w-auto rounded" />
         </div>
         
           <div className="flex space-x-4">

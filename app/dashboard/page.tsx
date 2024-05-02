@@ -11,7 +11,7 @@ export default function Dashboard() {
   };
   const router = useRouter();
 
-  const handleClick = async (e:SyntheticEvent) => {
+  const handleClick = async (e:SyntheticEvent ) => {
     e.preventDefault()
     localStorage.setItem('query', inputValue);
     router.push(`/newspage`);    
