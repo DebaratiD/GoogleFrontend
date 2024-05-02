@@ -1,6 +1,7 @@
 import Image from 'next/image'
-import profilePic from '../../public/icon-img.jpeg'
+
 const Navbar = () => {
+  const profilePic = '../../public/icon-img.jpeg';
   return (
 <nav className="bg-gray-800">
   <div className="mx-auto max-w-10xl px-2 sm:px-6 lg:px-8">

@@ -3,12 +3,11 @@
 import React, { useEffect, useState } from 'react';
 import CardComponent from '../components/CardComponent';
 import { Card } from '../interfaces/card';
-import { useSearchParams } from 'next/navigation';
 import Navbar from '../components/Navbar';
-import {data} from '../sampledata'
 import BookDiv from '../components/bookDiv';
 import { Book} from '../interfaces/book';
 import { GET, POST } from '../api/route';
+import {data} from '../sampledata'
 
 const CardViewer:React.FC<{cards:Card[], handleShowStory:Function}> = ({cards,handleShowStory})=>{
   return cards.map((card, index) =>           
@@ -17,7 +16,7 @@ const CardViewer:React.FC<{cards:Card[], handleShowStory:Function}> = ({cards,ha
 
   let b:Book = {author:'',title:'', lines:[]} 
 function CardDashboard() {
-  const [cards, setCards] = useState<Card[]>([])
+  const [cards, setCards] = useState<Card[]>(data)
   const [showStory, setShowStory] = useState(false)
   const [bookToShow, setBookToShow] = useState<Book>(b)
 
