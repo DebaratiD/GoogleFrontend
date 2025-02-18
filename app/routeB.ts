@@ -1,9 +1,10 @@
 import { Book, query } from "./interfaces/book";
 import { Card } from "./interfaces/card";
 
+const BACKEND_URL = "https://google-hack-backend-one.vercel.app";
 
 export async function getNews(inputValue:string){
-    let url= `http://localhost:8000/news/news_query/?q=${inputValue}`;
+    let url= BACKEND_URL+`/news/news_query/?q=${inputValue}`;
     const response = (await fetch(url)).json()
     let data = await response
     const cards = data.filter((obj:Card) => obj.title !== "[Removed]")
@@ -11,7 +12,7 @@ export async function getNews(inputValue:string){
   }
   
 export async function getStory(inputValue:query){
-    let url= 'http://localhost:8000/qapi/getstory';
+    let url= BACKEND_URL+'/qapi/getstory';
     let obj ={"ques": inputValue.ques }
     const response = (await fetch(url,{
       method: 'POST',
