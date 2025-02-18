@@ -6,7 +6,6 @@ import { Card } from '../interfaces/card';
 import Navbar from '../components/navbar';
 import BookDiv from '../components/bookDiv';
 import { Book, query} from '../interfaces/book';
-import { GET, POST } from '../api/route';
 import {data} from '../sampledata'
 import { getNews, getStory } from '../routeB';
 import Loading from '../components/loading';
@@ -38,7 +37,7 @@ function CardDashboard() {
     };
     getCards();
     
-  },[setCards])
+  },[])
   // 
   const handleShowStory=async (c:Card)=>{
     let postObj:query = {
@@ -64,7 +63,7 @@ function CardDashboard() {
         {loading && <Loading />}
         <Navbar/>
         {!loading && showStory==false &&
-        <div className="bggradient grid min-h-screen lg:grid-cols-3 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-2">
+        <div className="bggradient grid min-h-screen lg:grid-cols-3 grid-rows-3 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-2">
 
           
         <CardViewer cards={cards} handleShowStory={handleShowStory}/>
