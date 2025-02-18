@@ -3,11 +3,13 @@
 import React, { useEffect, useState } from 'react';
 import CardComponent from '../components/CardComponent';
 import { Card } from '../interfaces/card';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/navbar';
 import BookDiv from '../components/bookDiv';
-import { Book} from '../interfaces/book';
+import { Book, query} from '../interfaces/book';
 import { GET, POST } from '../api/route';
 import {data} from '../sampledata'
+import { getNews, getStory } from '../routeB';
+import Loading from '../components/loading';
 
 const CardViewer:React.FC<{cards:Card[], handleShowStory:Function}> = ({cards,handleShowStory})=>{
   return cards.map((card, index) =>           
@@ -18,50 +20,50 @@ const CardViewer:React.FC<{cards:Card[], handleShowStory:Function}> = ({cards,ha
 function CardDashboard() {
   const [cards, setCards] = useState<Card[]>(data)
   const [showStory, setShowStory] = useState(false)
-  const [bookToShow, setBookToShow] = useState<Book>(b)
+  const [bookToShow, setBookToShow] = useState<Book>(b);
+  const [loading, setLoading] = useState(false);
 
  
   useEffect(()=>{ 
   const query = String(localStorage.getItem('query')).split(' ')
   let query2 = query.length>1?query.join('+'):query[0];  
+  setLoading(true);
 
-    const req = new Request(`http://localhost:8000/news/news_query/?q=${query2}`,{method:'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    }
-    })
-     
-    GET(req)
-    .then((val)=>val.json())
+    const getCards = async()=>{
+      await getNews(query2).then((val)=>val.json())
     .then((val:any)=>{
       const data = val.filter((obj:Card) => obj.title !== "[Removed]")
       setCards(data);})
+      setLoading(false);
+    };
+    getCards();
+    
   },[setCards])
   // 
-  const handleShowStory=(c:Card)=>{
-    const req = new Request(`http://localhost:8000/qapi/getstory/`,{method:'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body:JSON.stringify({ques:c.content})
-    })
-
-    POST(req)
+  const handleShowStory=async (c:Card)=>{
+    let postObj:query = {
+      ques:c.content,
+      author:c.author,
+      title:c.title
+    }
+    setLoading(true);
+    await getStory(postObj)
     .then((response)=>response.json())
-    .then((val:string)=>{
-      let lines:string[] = val.split('\n\n')
-      lines = lines.map((l:string)=>l.replace('\n',' ')).filter(l=>l.length>0)
-      setBookToShow({author:c.author, lines:lines, title:c.title});
+    .then((val)=>{
+      let {author,lines,title}= val;
+      lines = lines.map((l:string)=>l.replace('\n',' ')).filter((l:string)=>l.length>0)
+      setBookToShow({author:author, lines:lines, title:title});
     });
     setShowStory(true);
+    setLoading(false);
   }
 
   return (
 
-      <div>
-        
+      <div className='relative'>
+        {loading && <Loading />}
         <Navbar/>
-        {showStory==false &&
+        {!loading && showStory==false &&
         <div className="bggradient grid min-h-screen lg:grid-cols-3 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-2">
 
           
