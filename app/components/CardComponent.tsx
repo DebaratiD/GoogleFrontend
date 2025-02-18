@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image'
 import { useRouter } from 'next/navigation';
 import { Card } from '../interfaces/card';
 import Link from 'next/link';

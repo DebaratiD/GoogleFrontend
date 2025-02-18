@@ -1,16 +1,19 @@
 // pages/index.tsx
 'use client'
 import React, { useEffect, useState } from 'react';
-import CardComponent from '../components/CardComponent';
-import { Card } from '../interfaces/card';
-import Navbar from '../components/navbar';
-import BookDiv from '../components/bookDiv';
-import { Book, query} from '../interfaces/book';
-import {data} from '../sampledata'
-import { getNews, getStory } from '../routeB';
-import Loading from '../components/loading';
+import { Card } from '../../app/interfaces/card';
+import Navbar from '../../app/components/navbar';
+import { Book, query} from '../../app/interfaces/book';
+import {data} from '../../app/sampledata'
+import { getNews, getStory } from '../../app/routeB';
+import Loading from '../../app/components/loading';
+import dynamic from 'next/dynamic';
+
+
+const BookDiv = dynamic(() => import("../../app/components/bookDiv"), { ssr: false });
 
 const CardViewer:React.FC<{cards:Card[], handleShowStory:Function}> = ({cards,handleShowStory})=>{
+  const CardComponent = dynamic(() => import("../../app/components/CardComponent"), { ssr: false });
   return cards.map((card, index) =>           
     <CardComponent key={index} cardData={card} showNews={handleShowStory}/>)
 }
@@ -24,6 +27,10 @@ function CardDashboard() {
 
  
   useEffect(()=>{ 
+    if(typeof window==="undefined") return;
+    const self = window.self;
+      if (!self) return;
+    
   const query = String(localStorage.getItem('query')).split(' ')
   let query2 = query.length>1?query.join('+'):query[0];  
   setLoading(true);
@@ -69,7 +76,7 @@ function CardDashboard() {
         <CardViewer cards={cards} handleShowStory={handleShowStory}/>
           </div>}
         
-        {showStory==true && bookToShow.title.length>0 &&
+        {!loading && showStory==true && bookToShow.title.length>0 &&
         <div className='bggradient min-h-screen text-center'>
         <div className='flex p-5 justify-center'>
           <BookDiv bookContent={bookToShow} showStory={(val:boolean)=>{setShowStory(val); setBookToShow(b)}}/>

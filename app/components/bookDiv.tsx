@@ -4,7 +4,6 @@ import Carousel from 'react-spring-3d-carousel';
 import {v4} from 'uuid';
 import {config} from 'react-spring';
 
-
 interface page{
   key: string;
   content: JSX.Element;
@@ -29,10 +28,18 @@ const BookDiv: React.FC<{ bookContent:Book, showStory: Function }> = ({bookConte
     for (let i = 0; i < numPages; i++) {
       newPages.push({
         content:<div className="line grid"><p>{bookContent.lines[i]}</p><span className="pageNumber">{i+1}</span></div>,
-      key:v4(), onClick: () =>{if(state.goToSlide<i+1){setState({ ...state, goToSlide: i})}}});
+      key:v4(), 
+      onClick: () =>{
+        if(state.goToSlide<i+1){
+          setState({ ...state, goToSlide: i});
+        }
+      }});
     }
     setPages(newPages);
-  }, [numPages, setPages, bookContent]);
+  }, []);
+  const handleCard = ()=>{
+
+  }
 
   return (
     <div className="w-[100%] flex">
