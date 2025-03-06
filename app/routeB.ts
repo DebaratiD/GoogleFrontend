@@ -2,6 +2,7 @@ import { Book, query } from "./interfaces/book";
 import { Card } from "./interfaces/card";
 
 const BACKEND_URL = "https://google-hack-backend-one.vercel.app";
+//const BACKEND_URL = "http://localhost:8000";
 
 export async function getNews(inputValue:string){
     let url= BACKEND_URL+`/news/news_query/?q=${inputValue}`;

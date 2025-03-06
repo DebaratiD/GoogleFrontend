@@ -64,6 +64,16 @@ button {
   cursor: pointer;
   outline: none;
 }
+button:disabled{
+  transform:translateY(0px);
+  box-shadow: none;
+  opacity: 0.7;
+  &:hover{
+    transform:none;
+    box-shadow: none;
+    opacity: 0.7;
+  }
+}
 
 button:hover {
   background-color:springgreen;
@@ -199,4 +209,40 @@ button:active {
     transform: scale(1);
     opacity: 1;
   }
+}
+
+@keyframes expand{
+  0%{
+    width:12rem;
+  }
+  100%{
+    width:20rem;
+  }
+}
+@keyframes contract{
+  0%{
+    width:20rem;
+  }
+  100%{
+    width:12rem;
+  }
+}
+.focused{
+  #search__ip{
+    animation: expand 0.5s ease-in forwards;
+  } 
+}
+.not-focused{
+  #search__ip{
+    animation: contract 0.5s ease-in forwards;
+  } 
+}
+.backdrop-custom{
+ /* From https://css.glass */
+background: rgba(116, 200, 190, 0.45);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(6.2px);
+-webkit-backdrop-filter: blur(6.2px);
+border: 1px solid rgba(116, 200, 190, 0.37);
 }

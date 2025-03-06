@@ -37,9 +37,13 @@ function CardDashboard() {
 
     const getCards = async()=>{
       await getNews(query2).then((val)=>val.json())
-    .then((val:any)=>{
+    .then((val:any[])=>{
       const data = val.filter((obj:Card) => obj.title !== "[Removed]")
       setCards(data);})
+    .catch((err)=>{
+      console.log(err);
+      setCards([]);
+    })
       setLoading(false);
     };
     getCards();
@@ -59,6 +63,10 @@ function CardDashboard() {
       let {author,lines,title}= val;
       lines = lines.map((l:string)=>l.replace('\n',' ')).filter((l:string)=>l.length>0)
       setBookToShow({author:author, lines:lines, title:title});
+    })
+    .catch((err)=>{
+      console.log(err);
+      setBookToShow({author:"", lines:[],title:""});
     });
     setShowStory(true);
     setLoading(false);
@@ -66,7 +74,7 @@ function CardDashboard() {
 
   return (
 
-      <div className='relative'>
+      <div className='relative pt-16 '>
         {loading && <Loading />}
         <Navbar/>
         {!loading && showStory==false &&
