@@ -18,7 +18,7 @@ const BookDiv: React.FC<{ bookContent:Book, showStory: Function }> = ({bookConte
   const [state, setState] = useState({
     goToSlide: 0,
     offsetRadius: 2,
-    showNavigation: false,
+    showNavigation: true,
     config: config.gentle,
   });
 

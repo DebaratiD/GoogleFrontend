@@ -17,7 +17,7 @@ export default function Dashboard() {
       else{
         clearInterval(timer);
       }
-    },200);
+    },100);
     return ()=>clearInterval(timer);
   },[])
 

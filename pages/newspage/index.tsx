@@ -90,7 +90,6 @@ function CardDashboard() {
           <BookDiv bookContent={bookToShow} showStory={(val:boolean)=>{setShowStory(val); setBookToShow(b)}}/>
           
         </div>
-        <p>Click on the cards to know what happens next</p>
         </div>
         }
         {showStory==true && bookToShow.title.length==0 && 

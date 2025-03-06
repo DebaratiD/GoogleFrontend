@@ -12,11 +12,17 @@ const SearchBar:React.FC<SearchComponentProps> = ({handleInputChange, handleClic
     useEffect(()=>{
       document.addEventListener("click",(e)=>{
         if(search.current && search.current.contains(e.target as Node)){
-            search.current.classList = "flex justify-center focused";
+            search.current.classList.add("focused");
+            if(search.current.classList.contains("not-focused")){
+              search.current.classList.remove("not-focused")
+            }
         }
         else if(search.current){
-            search.current.classList = "flex justify-center not-focused";
+          search.current.classList.add("not-focused");
+          if(search.current.classList.contains("focused")){
+            search.current.classList.remove("focused")
         }
+      }
       });
     },[]);
         
