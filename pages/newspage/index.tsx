@@ -25,18 +25,10 @@ function CardDashboard() {
   const [bookToShow, setBookToShow] = useState<Book>(b);
   const [loading, setLoading] = useState(false);
 
- 
-  useEffect(()=>{ 
-    if(typeof window==="undefined") return;
-    const self = window.self;
-      if (!self) return;
-    
-  const query = String(localStorage.getItem('query')).split(' ')
-  let query2 = query.length>1?query.join('+'):query[0];  
-  setLoading(true);
-
-    const getCards = async()=>{
-      await getNews(query2).then((val)=>val.json())
+  const getCards = async()=>{
+    const query = String(localStorage.getItem('query')).split(' ')
+    let query2 = query.length>1?query.join('+'):query[0]; 
+    await getNews(query2).then((val)=>val.json())
     .then((val:any[])=>{
       const data = val.filter((obj:Card) => obj.title !== "[Removed]")
       setCards(data);})
@@ -44,9 +36,14 @@ function CardDashboard() {
       console.log(err);
       setCards([]);
     })
-      setLoading(false);
-    };
-    getCards();
+    setLoading(false);
+  };
+  useEffect(()=>{ 
+    if(typeof window==="undefined") return;
+      const self = window.self;
+      if (!self) return;
+      setLoading(true);
+      getCards();
     
   },[])
   // 
@@ -76,7 +73,7 @@ function CardDashboard() {
 
       <div className='relative pt-16 '>
         {loading && <Loading />}
-        <Navbar/>
+        <Navbar show={!showStory} loadData={getCards} />
         {!loading && showStory==false &&
         <div className="bggradient grid min-h-screen lg:grid-cols-3 grid-rows-3 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-2">
 

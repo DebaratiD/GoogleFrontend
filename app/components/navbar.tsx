@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useState, SyntheticEvent } from 'react';
 import SearchBar from './SearchBar';
 
-const Navbar = () => {
+const Navbar = ({show=true, loadData}:{show?:boolean, loadData?:()=>{}}) => {
   const [inputValue, setInputValue] = useState("");
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -15,7 +15,13 @@ const Navbar = () => {
   const handleClick = async (e:SyntheticEvent ) => {
     e.preventDefault()
     localStorage.setItem('query', inputValue);
-    router.push(`/newspage`);    
+    if(router.pathname!=="/newspage"){
+      router.push(`/newspage`);    
+    }
+    
+    if(loadData!=undefined){
+      loadData();
+    }
   }
   return (
   <nav className="bg-gray-800 z-[1] fixed w-full top-0">
@@ -31,7 +37,7 @@ const Navbar = () => {
             </div>
             
         </div>
-        <SearchBar handleInputChange={handleInputChange} handleClick={handleClick} isDisabled={inputValue===""}/>
+        {show===true && <SearchBar handleInputChange={handleInputChange} handleClick={handleClick} isDisabled={inputValue===""}/>}
         <p className="text-lg mt-4 mb-4">With Gemini 2.0 Flash</p>
         
       </div>
